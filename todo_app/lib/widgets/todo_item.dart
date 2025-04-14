@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/model/todo.dart';
 
 class ToDoItem extends StatelessWidget {
-  const ToDoItem({super.key});
+  final ToDo item;
+  final Function onToDoState;
+  final Function onDeleteItem;
+
+  const ToDoItem({
+    super.key,
+    required this.item,
+    required this.onToDoState,
+    required this.onDeleteItem,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -10,16 +20,31 @@ class ToDoItem extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         child: ListTile(
+          onTap: () {
+            onToDoState(item);
+          },
           contentPadding: EdgeInsets.symmetric(horizontal: 18, vertical: 2),
-          leading: Icon(Icons.check_box, color: Colors.blue[400]),
+          leading:
+              item.isDone
+                  ? Icon(Icons.check_box, color: Colors.blue[400])
+                  : Icon(
+                    Icons.check_box_outline_blank,
+                    color: Colors.blue[400],
+                  ),
           tileColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          onTap: () {},
           title: Text(
-            "Some Text Here",
-            style: TextStyle(fontSize: 14, color: Colors.black87),
+            "${item.description}",
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.black87,
+              decoration:
+                  item.isDone
+                      ? TextDecoration.lineThrough
+                      : TextDecoration.none,
+            ),
           ),
           trailing: Container(
             height: 35,
@@ -32,7 +57,9 @@ class ToDoItem extends StatelessWidget {
             child: IconButton(
               iconSize: 22,
               padding: EdgeInsets.all(0),
-              onPressed: () {},
+              onPressed: () {
+                onDeleteItem(item.id);
+              },
               icon: Icon(Icons.delete, color: Colors.white),
             ),
           ),

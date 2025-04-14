@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/model/todo.dart';
 import 'package:my_app/views/screens/app_bar.dart';
 import 'package:my_app/views/screens/search.dart';
 import 'package:my_app/widgets/todo_item.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final items = ToDo.toDoList();
+
+  void _handleToDoState(ToDo item) {
+    setState(() {
+      item.isDone = !item.isDone;
+    });
+  }
+
+  void _deleteToDoItem(String id) {
+    setState(() {
+      items.removeWhere((item) => item.id == id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +49,12 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  ToDoItem(),
-                  ToDoItem(),
+                  for (ToDo item in items)
+                    ToDoItem(
+                      item: item,
+                      onToDoState: _handleToDoState,
+                      onDeleteItem: _deleteToDoItem,
+                    ),
                 ],
               ),
             ),
