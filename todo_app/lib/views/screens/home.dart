@@ -20,6 +20,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _deleteToDoItem(String id) {
+    setState(() {
+      items.removeWhere((item) => item.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                     ToDoItem(
                       item: item,
                       onToDoState: _handleToDoState,
-                      onDeleteItem: () {},
+                      onDeleteItem: _deleteToDoItem,
                     ),
                 ],
               ),

@@ -10,7 +10,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(Icons.menu, color: Colors.black45),
-          Container(
+          SizedBox(
             height: 40,
             width: 40,
             child: ClipRRect(
