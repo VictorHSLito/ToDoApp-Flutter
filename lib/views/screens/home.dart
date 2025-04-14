@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/views/screens/app_bar.dart';
 import 'package:my_app/views/screens/search.dart';
+import 'package:my_app/widgets/todo_item.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,6 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 229, 225, 236),
       appBar: HomeAppBar(),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -27,6 +29,8 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  ToDoItem(),
+                  ToDoItem(),
                 ],
               ),
             ),
