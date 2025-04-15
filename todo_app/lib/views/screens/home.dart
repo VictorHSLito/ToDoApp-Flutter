@@ -56,14 +56,16 @@ class _HomePageState extends State<HomePage> {
 
   void _addNewTask(String toDo) {
     setState(() {
-      tasks.add(
-        ToDo(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          description: toDo,
-        ),
-      );
+      if (toDo.isNotEmpty) {
+        tasks.add(
+          ToDo(
+            id: DateTime.now().millisecondsSinceEpoch.toString(),
+            description: toDo,
+          ),
+        );
+      }
+      _todoController.clear();
     });
-    _todoController.clear();
   }
 
   @override
