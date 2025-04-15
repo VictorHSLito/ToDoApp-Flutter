@@ -12,7 +12,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final items = ToDo.toDoList();
+  final tasks = ToDo.list();
+
+  List<ToDo> _foundTask = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _foundTask = tasks;
+  }
+
+  void _runFilter(String keyworld) {
+    List<ToDo> results = [];
+    if (keyworld.isEmpty) {
+      results = tasks;
+    } else {
+      results =
+          tasks
+              .where(
+                (item) => item.description!.toLowerCase().contains(keyworld),
+              )
+              .toList();
+    }
+
+    setState(() {
+      _foundTask = results;
+    });
+  }
 
   final _todoController = TextEditingController();
 
@@ -24,13 +50,13 @@ class _HomePageState extends State<HomePage> {
 
   void _deleteToDoItem(String id) {
     setState(() {
-      items.removeWhere((item) => item.id == id);
+      tasks.removeWhere((item) => item.id == id);
     });
   }
 
   void _addNewTask(String toDo) {
     setState(() {
-      items.add(
+      tasks.add(
         ToDo(
           id: DateTime.now().millisecondsSinceEpoch.toString(),
           description: toDo,
@@ -51,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Column(
               children: [
-                searchBox(),
+                SearchBarHome(onChanged: _runFilter),
                 Expanded(
                   child: ListView(
                     children: [
@@ -65,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-                      for (ToDo item in items)
+                      for (ToDo item in _foundTask)
                         ToDoItem(
                           item: item,
                           onToDoState: _handleToDoState,
